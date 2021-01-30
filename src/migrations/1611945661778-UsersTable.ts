@@ -14,10 +14,10 @@ export class UsersTable1611945661778 implements MigrationInterface {
         columns: [
           new TableColumn({
             name: 'id',
-            type: 'varchar',
+            type: 'int',
             isPrimary: true,
+            isGenerated: true,
             generationStrategy: 'increment',
-            isNullable: false,
           }),
           new TableColumn({
             name: 'createDateTime',

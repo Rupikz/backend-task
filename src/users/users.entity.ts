@@ -3,7 +3,7 @@ import { IsNotEmpty, Min, IsInt } from 'class-validator';
 import { BaseEntity } from '../entity/base.entity';
 
 @Entity('users')
-export class UsersEntity extends BaseEntity {
+export class Users extends BaseEntity {
   @Column({ unique: true })
   @IsNotEmpty()
   login: string;
