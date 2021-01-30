@@ -1,0 +1,8 @@
+*
+
+!/package*.json
+!/ts*.json
+!/ormconfig.ts
+!/src
+!/.env
+!/init-database.sh

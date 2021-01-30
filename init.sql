@@ -1,0 +1,2 @@
+CREATE DATABASE novotorica;
+GRANT ALL PRIVILEGES ON DATABASE novotorica TO postgres;
