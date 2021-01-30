@@ -1,5 +1,5 @@
-# not work
 version: '3.7'
+
 services:
   postgres:
     container_name: postgres_container
@@ -13,9 +13,7 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - '5432:5432'
-    networks:
-      - postgres
-    restart: unless-stopped
+    restart: always
 
   nest-api:
     container_name: nest-api
@@ -24,14 +22,19 @@ services:
       dockerfile: Dockerfile
     ports:
       - ${PORT}:3000
-    depends_on:
-      - postgres
+    environment:
+      PORT: ${PORT:-3000}
+      POSTGRES_HOST: ${POSTGRES_HOST:-postgres}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
     env_file:
       - .env
-
-networks:
-  postgres:
-    driver: bridge
-
-volumes:
-  postgres:
+    links:
+      - postgres:postgres
+    depends_on:
+      - postgres
+    restart: always
+    volumes:
+      - .:/app
+      - /app/node_modules
