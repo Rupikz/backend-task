@@ -1,9 +1,10 @@
-import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { getManager, Repository } from 'typeorm';
 import { Users } from './users.entity';
-import { ResponseDto } from './dto/response/user.response';
+import { AuthUserDto } from './dto/auth-user';
+import { getManager, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import { UserDto } from './dto/request/user.request';
+import { ResponseDto } from './dto/response/user.response';
+import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
@@ -11,6 +12,33 @@ export class UsersService {
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,
   ) {}
+
+  async findUser(login: string): Promise<AuthUserDto> {
+    try {
+      const user = await getManager()
+        .createQueryBuilder(Users, 'users')
+        .select([
+          'users.id',
+          'users.login',
+          'users.password',
+          'users.username',
+          'users.age',
+          'users.refreshToken',
+        ])
+        .where('users.login = :login', { login })
+        .getOne();
+
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: error.message,
+        },
+        HttpStatus.FORBIDDEN,
+      );
+    }
+  }
 
   async getUser(id: number): Promise<ResponseDto> {
     try {
@@ -110,8 +138,6 @@ export class UsersService {
   }
 
   async authorization(data: UserDto): Promise<ResponseDto> {
-    console.log(data);
-
     return {
       status: HttpStatus.FORBIDDEN,
       message: 'User login',

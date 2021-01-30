@@ -1,6 +1,6 @@
-import { Entity, Column } from 'typeorm';
 import { IsNotEmpty, Min, IsInt } from 'class-validator';
 import { BaseEntity } from '../entity/base.entity';
+import { Entity, Column } from 'typeorm';
 
 @Entity('users')
 export class Users extends BaseEntity {
@@ -19,4 +19,7 @@ export class Users extends BaseEntity {
   @IsNotEmpty()
   @Min(6)
   password: string;
+
+  @Column()
+  refreshToken: string;
 }

@@ -46,6 +46,11 @@ export class UsersTable1611945661778 implements MigrationInterface {
             isNullable: true,
           }),
           new TableColumn({
+            name: 'refreshToken',
+            type: 'varchar',
+            isNullable: true,
+          }),
+          new TableColumn({
             name: 'updateDateTime',
             type: 'timestamp',
             isNullable: false,
