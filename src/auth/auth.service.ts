@@ -13,22 +13,16 @@ export class AuthService {
 
   async validateUser(login: string, password: string) {
     try {
-      const user = await this.usersService.findUser(login);
-      const checkedPassword = await compare(password, user.password);
+      const user = await this.usersService.findUserByLogin(login);
+      const isPassValid = await compare(password, user.password);
 
-      if (user && checkedPassword) {
-        const { refreshToken, ...result } = user;
-        return result;
+      if (user && isPassValid) {
+        return user;
       }
+
       return null;
     } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.FORBIDDEN,
-          error: error.message,
-        },
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException(error.message, HttpStatus.FORBIDDEN);
     }
   }
 
@@ -41,7 +35,10 @@ export class AuthService {
     };
 
     return {
-      access_token: this.jwtService.sign(payload),
+      statusCode: HttpStatus.OK,
+      data: {
+        access_token: this.jwtService.sign(payload),
+      },
     };
   }
 }

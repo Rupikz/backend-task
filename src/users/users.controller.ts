@@ -7,6 +7,7 @@ import {
   HttpStatus,
   HttpCode,
   Body,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -18,6 +19,7 @@ import { UsersService } from './users.service';
 import { UserDto } from './dto/request/user.request';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ResponseDto } from './dto/response/user.response';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('users')
@@ -44,6 +46,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Создание нового пользователя' })
+  @UseGuards(JwtAuthGuard)
   @Post('users')
   @HttpCode(HttpStatus.OK)
   create(@Body() createUserDto: CreateUserDto): Promise<ResponseDto> {
@@ -51,16 +54,10 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Обновление данных пользователя' })
+  @UseGuards(JwtAuthGuard)
   @Patch('users/:id')
   @HttpCode(HttpStatus.OK)
   update(@Param() params, @Body() userDto: UserDto): Promise<ResponseDto> {
     return this.usersService.update(params.id, userDto);
-  }
-
-  @ApiOperation({ summary: 'Авторизация' })
-  @Post('users/login')
-  @HttpCode(HttpStatus.OK)
-  authorization(@Body() userDto: UserDto): Promise<ResponseDto> {
-    return this.usersService.authorization(userDto);
   }
 }
