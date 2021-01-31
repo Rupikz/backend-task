@@ -1,18 +1,6 @@
 ## Description
 
-- GET: /api/users/:page -Список пользователей постранично, { id, login }
-- GET: /api/users/:id - Информация о пользователе, { login, username, age }
-- POST: /api/users - Создание пользователя (access token), { login, password, username, age }
-- PATCH: /api/users/:id - Редактирование по id (access token), { password, username, age }
-- POST: /api/login - Авторизация пользователя, { login, password }
-
-- Typescript
-- NestJS
-- TypeORM
-- Passport.js
-- PostgreSQL
-- Docker
-- \*\*Swagger
+This is simple nestjs project.
 
 ## Installation
 
@@ -22,13 +10,23 @@ $ npm install
 
 ## Running the app
 
+Add `.env` file
+
 ```bash
 # development
-$ npm run start
-
-# watch mode
+$ ./db-compose.sh
 $ npm run start:dev
 
-# production mode
-$ npm run start:prod
+# production
+$ ./prod-compose.sh
 ```
+
+## Endpoints
+
+- `GET /api/users/:page` - returns an array of `Users`
+- `GET /api/users/:id` - returns the user data
+- `POST /api/users` - create a user
+- `PATCH /api/users/:id` - Partially update a user
+- `POST /api/login` - returns a access token
+
+Swagger - `/api`
