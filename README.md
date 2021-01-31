@@ -24,7 +24,7 @@ $ ./prod-compose.sh
 ## Endpoints
 
 - `GET /api/users/:page` - returns an array of `Users`
-- `GET /api/users/:id` - returns the user data
+- `GET /api/users/id:id` - returns the user data
 - `POST /api/users` - create a user
 - `PATCH /api/users/:id` - Partially update a user
 - `POST /api/login` - returns a access token
