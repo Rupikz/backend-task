@@ -1,26 +1,27 @@
 import {
-  Controller,
+  Body,
   Post,
-  HttpStatus,
   HttpCode,
   UseGuards,
-  Request,
+  HttpStatus,
+  Controller,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
+import { AuthUserDto } from '../users/dto';
 
 @ApiBearerAuth()
 @ApiTags('auth')
-@Controller('api')
+@Controller('api/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @ApiOperation({ summary: 'Авторизация' })
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
-  @Post('auth/login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  @Post('login')
+  async login(@Body() authUserDto: AuthUserDto) {
+    return this.authService.login(authUserDto);
   }
 }

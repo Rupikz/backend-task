@@ -19,7 +19,4 @@ export class Users extends BaseEntity {
   @IsNotEmpty()
   @Min(6)
   password: string;
-
-  @Column()
-  refreshToken: string;
 }

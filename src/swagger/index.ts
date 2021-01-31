@@ -5,4 +5,5 @@ export const config = new DocumentBuilder()
   .setDescription('Тестовое задание')
   .setVersion('1.0')
   .addTag('users')
+  .addTag('auth')
   .build();

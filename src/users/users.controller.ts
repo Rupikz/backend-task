@@ -16,14 +16,13 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { UsersService } from './users.service';
-import { UserDto } from './dto/request/user.request';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, UpdateUserDto } from './dto';
 import { ResponseDto } from './dto/response/user.response';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('users')
-@Controller('api')
+@Controller('api/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -32,14 +31,14 @@ export class UsersController {
     status: 200,
     description: 'Данные пользователя',
   })
-  @Get('users/id/:id')
+  @Get('id:id')
   @HttpCode(HttpStatus.OK)
   getUser(@Param() params): Promise<ResponseDto> {
     return this.usersService.getUser(params.id);
   }
 
   @ApiOperation({ summary: 'Все пользователи' })
-  @Get('users/:page')
+  @Get(':page')
   @HttpCode(HttpStatus.OK)
   getUsers(@Param() params): Promise<ResponseDto> {
     return this.usersService.getUsers(params.page);
@@ -55,9 +54,12 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Обновление данных пользователя' })
   @UseGuards(JwtAuthGuard)
-  @Patch('users/:id')
+  @Patch(':id')
   @HttpCode(HttpStatus.OK)
-  update(@Param() params, @Body() userDto: UserDto): Promise<ResponseDto> {
-    return this.usersService.update(params.id, userDto);
+  update(
+    @Param() params,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<ResponseDto> {
+    return this.usersService.update(params.id, updateUserDto);
   }
 }

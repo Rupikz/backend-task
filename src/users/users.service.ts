@@ -3,12 +3,13 @@ import {
   HttpStatus,
   HttpException,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
+import { AuthUserDto } from './dto';
 import { Users } from './users.entity';
-import { AuthUserDto } from './dto/auth-user';
+import { UserDto } from './user.interface';
 import { getManager, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserDto } from './dto/request/user.request';
 import { ResponseDto } from './dto/response/user.response';
 
 @Injectable()
@@ -71,6 +72,7 @@ export class UsersService {
         .select(['users.id', 'users.username', 'users.age'])
         .limit(limitEntries)
         .offset((page - 1) * limitEntries)
+        .orderBy('users.id', 'ASC')
         .getMany();
 
       if (!users.length) {
@@ -105,6 +107,10 @@ export class UsersService {
   }
 
   async update(id: number, data: UserDto): Promise<ResponseDto> {
+    if (!Object.keys(data).length) {
+      throw new BadRequestException();
+    }
+
     try {
       const user = await this.usersRepository.findOne(id);
       user.username = data.username || user.username;

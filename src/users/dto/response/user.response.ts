@@ -1,4 +1,4 @@
-import { UserDto } from '../request/user.request';
+import { UserDto } from '../../user.interface';
 
 export interface ResponseDto {
   statusCode: number;

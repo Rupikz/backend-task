@@ -5,7 +5,7 @@ import * as bcrypt from 'bcryptjs';
 export class AddUsers1611994825893 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     const saltOrRounds = 10;
-    const passwordAdminHash = await bcrypt.hash('admin', saltOrRounds);
+    const passwordAdminHash = await bcrypt.hash('adminadmin', saltOrRounds);
     const config = {
       length: 10,
       charset: 'alphabetic',
