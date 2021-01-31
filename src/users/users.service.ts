@@ -90,6 +90,7 @@ export class UsersService {
 
   async create(data: UserDto): Promise<ResponseDto> {
     const user = new Users();
+
     user.login = data.login;
     user.password = data.password;
     user.username = data.username;

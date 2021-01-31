@@ -1,6 +1,6 @@
 import {
-  Body,
   Post,
+  Request,
   HttpCode,
   UseGuards,
   HttpStatus,
@@ -9,7 +9,6 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
-import { AuthUserDto } from '../users/dto';
 
 @ApiBearerAuth()
 @ApiTags('auth')
@@ -21,7 +20,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  async login(@Body() authUserDto: AuthUserDto) {
-    return this.authService.login(authUserDto);
+  async login(@Request() req) {
+    return this.authService.login(req.user);
   }
 }

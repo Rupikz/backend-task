@@ -46,7 +46,7 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Создание нового пользователя' })
   @UseGuards(JwtAuthGuard)
-  @Post('users')
+  @Post('')
   @HttpCode(HttpStatus.OK)
   create(@Body() createUserDto: CreateUserDto): Promise<ResponseDto> {
     return this.usersService.create(createUserDto);

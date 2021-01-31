@@ -29,6 +29,7 @@ export class UsersTable1611945661778 implements MigrationInterface {
             name: 'login',
             type: 'varchar',
             isNullable: false,
+            isUnique: true,
           }),
           new TableColumn({
             name: 'password',

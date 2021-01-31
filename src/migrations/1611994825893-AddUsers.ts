@@ -7,7 +7,7 @@ export class AddUsers1611994825893 implements MigrationInterface {
     const saltOrRounds = 10;
     const passwordAdminHash = await bcrypt.hash('adminadmin', saltOrRounds);
     const config = {
-      length: 10,
+      length: 14,
       charset: 'alphabetic',
       capitalization: 'lowercase',
     };

@@ -1,12 +1,18 @@
 import { IsNotEmpty, Min, IsInt } from 'class-validator';
 import { BaseEntity } from '../entity/base.entity';
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, Unique } from 'typeorm';
 
 @Entity('users')
+@Unique(['login'])
 export class Users extends BaseEntity {
   @Column({ unique: true })
   @IsNotEmpty()
   login: string;
+
+  @Column()
+  @IsNotEmpty()
+  @Min(6)
+  password: string;
 
   @Column({ default: '' })
   username: string;
@@ -14,9 +20,4 @@ export class Users extends BaseEntity {
   @Column()
   @IsInt()
   age: number;
-
-  @Column()
-  @IsNotEmpty()
-  @Min(6)
-  password: string;
 }
