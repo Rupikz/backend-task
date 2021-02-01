@@ -31,8 +31,6 @@ services:
     env_file:
       - .env
     links:
-      - postgres:postgres
-    depends_on:
       - postgres
     restart: always
     volumes:

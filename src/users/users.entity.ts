@@ -1,5 +1,5 @@
 import { IsNotEmpty, Min, IsInt } from 'class-validator';
-import { BaseEntity } from '../entity/base.entity';
+import { BaseEntity } from '../common/base.entity';
 import { Entity, Column, Unique } from 'typeorm';
 
 @Entity('users')
