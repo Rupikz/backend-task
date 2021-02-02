@@ -34,7 +34,7 @@ export class UsersService {
         .getOne();
 
       if (!user) {
-        throw new NotFoundException('User Not Found');
+        throw new NotFoundException('Wrong Login or Password');
       }
 
       return user;
