@@ -10,7 +10,7 @@ export class AuthUserDto {
   login: string;
 
   @ApiProperty({
-    example: 'password',
+    example: 'adminadmin',
     description: 'User password',
     minimum: 6,
   })

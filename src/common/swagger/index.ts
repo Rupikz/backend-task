@@ -6,4 +6,5 @@ export const config = new DocumentBuilder()
   .setVersion('1.0')
   .addTag('users')
   .addTag('auth')
+  .addBearerAuth({ in: 'header', type: 'http' })
   .build();
