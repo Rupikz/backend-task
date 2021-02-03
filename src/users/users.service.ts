@@ -8,15 +8,16 @@ import {
 import { AuthUserDto } from './dto';
 import { Users } from './users.entity';
 import { UserDto } from './user.interface';
-import { getManager, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ResponseDto } from './dto/response/user.response';
+import { getManager, Repository, Connection } from 'typeorm';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,
+    private connection: Connection,
   ) {}
 
   async findUserByLogin(login: string): Promise<AuthUserDto> {
@@ -97,7 +98,9 @@ export class UsersService {
     user.age = data.age;
 
     try {
-      await this.usersRepository.save(user);
+      await this.connection.transaction(async (manager) => {
+        await manager.save(user);
+      });
       return {
         statusCode: HttpStatus.OK,
         message: 'User Created',
@@ -114,10 +117,14 @@ export class UsersService {
 
     try {
       const user = await this.usersRepository.findOne(id);
+
       user.username = data.username || user.username;
       user.password = data.password || user.password;
       user.age = data.age || user.age;
-      await this.usersRepository.save(user);
+
+      await this.connection.transaction(async (manager) => {
+        await manager.save(user);
+      });
 
       return {
         statusCode: HttpStatus.OK,
